@@ -1,3 +1,12 @@
+# GitLab Time Tracker
+
+## .env file
+
+- REACT_APP_GITLAB_APP_ID - Must contain GitLab Application ID (Unquoted)
+- REACT_APP_GITLAB_APP_SECRET - Must contain GitLab Application Secret (Unquoted)
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

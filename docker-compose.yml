@@ -1,0 +1,46 @@
+---
+
+version: "3.6"
+services:
+  client:
+    build:
+      context: .
+      dockerfile: docker/client/Dockerfile
+    environment:
+      - PORT=3000
+      - HOST=0.0.0.0
+      - ENVIRONMENT=localhost
+    env_file:
+      - .env
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+        mode: host
+    command:
+      - yarn
+      - start
+    volumes:
+      - ./:/srv/gitlab-time-tracker
+  netlify_lambda:
+    build:
+      context: .
+      dockerfile: docker/client/Dockerfile
+    environment:
+      - PORT=9000
+      - HOST=0.0.0.0
+      - ENVIRONMENT=localhost
+    env_file:
+      - .env
+    ports:
+      - target: 9000
+        published: 9000
+        protocol: tcp
+        mode: host
+    command:
+      - npx
+      - netlify-lambda
+      - serve
+      - src/functions
+    volumes:
+      - ./:/srv/gitlab-time-tracker

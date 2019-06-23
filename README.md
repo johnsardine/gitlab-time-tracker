@@ -2,8 +2,9 @@
 
 ## .env file
 
-- REACT_APP_GITLAB_APP_ID - Must contain GitLab Application ID (Unquoted)
-- REACT_APP_GITLAB_APP_SECRET - Must contain GitLab Application Secret (Unquoted)
+- REACT_APP_GITLAB_APP_ID - GitLab Application ID (Unquoted)
+- REACT_APP_GITLAB_APP_SECRET - Application Secret (Unquoted)
+- REACT_APP_APP_URL - App URL (Unquoted)
 
 ---
 

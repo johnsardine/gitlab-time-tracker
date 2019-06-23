@@ -2,9 +2,10 @@ import React from 'react';
 import Axios from 'axios';
 
 const APP_ID = process.env.REACT_APP_GITLAB_APP_ID;
-const REDIRECT_URI = 'http://localhost:3000/';
+const APP_URL = process.env.REACT_APP_APP_URL;
+const REDIRECT_URI = APP_URL;
 
-const FUNCTIONS_ROOT_URL = 'http://localhost:3000/.netlify/functions';
+const FUNCTIONS_ROOT_URL = `${APP_URL}/.netlify/functions`;
 
 const responseParameters = new URLSearchParams(window.location.search);
 const gitlabResponseCode = responseParameters.get('code');

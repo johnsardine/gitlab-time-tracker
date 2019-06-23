@@ -25,19 +25,12 @@ if (authorizationData) {
   });
 }
 
-async function requestAccessToken() {
-  const response = await fetch(`${FUNCTIONS_ROOT_URL}/request-access-token`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      client_id: APP_ID,
-      redirect_uri: REDIRECT_URI,
-      code: gitlabResponseCode,
-    }),
+function requestAccessToken() {
+  return Axios.post(`${FUNCTIONS_ROOT_URL}/request-access-token`, {
+    client_id: APP_ID,
+    redirect_uri: REDIRECT_URI,
+    code: gitlabResponseCode,
   });
-  return response.json();
 }
 
 
@@ -46,11 +39,19 @@ if (gitlabResponseCode) {
     try {
       const oauthResponse = await requestAccessToken();
       // Save oauth response
-      localStorage.setItem('gitlabTimeTracker', JSON.stringify(oauthResponse));
+      localStorage.setItem('gitlabTimeTracker', JSON.stringify(oauthResponse.data));
       // Redirect to root
       window.location.href = REDIRECT_URI;
     } catch (except) {
-      console.error('Failed to get oauth response', except);
+      const {
+        data: {
+          error,
+          error_description,
+        },
+      } = except.response;
+      if (error === 'invalid_grant') {
+        alert(error_description);
+      }
     }
   })();
 }

@@ -1,5 +1,9 @@
 # GitLab Time Tracker
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6c372c17-6e98-41d1-a420-bbcc938ae2e8/deploy-status)](https://app.netlify.com/sites/gitlab-time-tracker/deploys)
+
+[Try the app](https://gitlab-time-tracker.netlify.com/)
+
 ## .env file
 
 - REACT_APP_GITLAB_APP_ID - GitLab Application ID (Unquoted)

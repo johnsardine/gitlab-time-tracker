@@ -1,4 +1,4 @@
-FROM node:10.15.3
+FROM node:10.16.0-alpine
 LABEL maintainer "johnsardine@gmail.com"
 
 ENV PROJECT_DIR /srv/gitlab-time-tracker

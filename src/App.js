@@ -96,28 +96,21 @@ class App extends React.Component {
     }
   }
 
-  renderIssue(issue) {
-    return (
-      <IssueEntry
-        key={issue.id}
-        issue={issue}
-        updateEntry={this.updateIssue} />
-    );
-  }
-
   render() {
     const {
       issues,
     } = this.state;
-    const {
-      renderIssue,
-    } = this;
     return (
       <div>
         <a href={requestAuthCode}>Request Auth</a>
-        <ul>
-          {issues.map(renderIssue.bind(this))}
-        </ul>
+        <div>
+          {issues.map((issue) =>
+            <IssueEntry
+              key={issue.id}
+              issue={issue}
+              updateEntry={this.updateIssue} />
+          )}
+        </div>
       </div>
     );
   }

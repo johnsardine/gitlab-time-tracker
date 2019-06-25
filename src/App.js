@@ -1,5 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
+import apiInstance from './apiInstance';
+import IssueEntry from './components/IssueEntry';
 
 const APP_ID = process.env.REACT_APP_GITLAB_APP_ID;
 const APP_URL = process.env.REACT_APP_APP_URL;
@@ -11,19 +13,6 @@ const responseParameters = new URLSearchParams(window.location.search);
 const gitlabResponseCode = responseParameters.get('code');
 
 const requestAuthCode = `https://gitlab.com/oauth/authorize?client_id=${APP_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-
-const authorizationData = JSON.parse(localStorage.getItem('gitlabTimeTracker'));
-
-let apiInstance;
-if (authorizationData) {
-  apiInstance = Axios.create({
-    baseURL: 'https://gitlab.com/api',
-    timeout: 10000,
-    headers: {
-      'Authorization': `${authorizationData.token_type} ${authorizationData.access_token}`,
-    },
-  });
-}
 
 function requestAccessToken() {
   return Axios.post(`${FUNCTIONS_ROOT_URL}/request-access-token`, {
@@ -62,11 +51,9 @@ class App extends React.Component {
     this.state = {
       user: {},
       issues: [],
+      loadingIssues: false,
     };
-    if (apiInstance) {
-      this.fetchUser();
-      this.fetchIssues();
-    }
+    this.updateIssue = this.updateIssue.bind(this);
   }
 
   async fetchUser() {
@@ -77,21 +64,45 @@ class App extends React.Component {
   }
 
   async fetchIssues() {
-    const request = await apiInstance.get('/v4/issues');
+    this.setState({
+      loadingIssues: true,
+    });
+    const request = await apiInstance.get('/v4/issues?state=opened&scope=assigned_to_me&order_by=updated_at');
     this.setState({
       issues: request.data,
+      loadingIssues: false,
     });
   }
 
-  renderIssue({
-    id,
-    title,
-    web_url,
-  }) {
+  async updateIssue(issue) {
+    const request = await apiInstance.get(issue._links.self);
+    // this.fetchIssues();
+    this.setState((state) => {
+      const issues = state.issues.map((issue) => {
+        if (request.data.id === issue.id) {
+          return request.data;
+        }
+        return issue;
+      });
+      return {
+        issues,
+      }
+    });
+  }
+
+  componentDidMount() {
+    if (apiInstance) {
+      this.fetchUser();
+      this.fetchIssues();
+    }
+  }
+
+  renderIssue(issue) {
     return (
-      <li key={id}>
-        <a href={web_url}>{title}</a>
-      </li>
+      <IssueEntry
+        key={issue.id}
+        issue={issue}
+        updateEntry={this.updateIssue} />
     );
   }
 
@@ -99,11 +110,14 @@ class App extends React.Component {
     const {
       issues,
     } = this.state;
+    const {
+      renderIssue,
+    } = this;
     return (
       <div>
         <a href={requestAuthCode}>Request Auth</a>
         <ul>
-          {issues.map(this.renderIssue)}
+          {issues.map(renderIssue.bind(this))}
         </ul>
       </div>
     );

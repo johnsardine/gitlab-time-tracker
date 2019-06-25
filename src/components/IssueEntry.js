@@ -39,7 +39,6 @@ export default class extends React.Component {
     if (!(time > 0)) {
       return;
     }
-    console.log('uploadTime');
     const {
       _links: {
         self: issueApiUrl,

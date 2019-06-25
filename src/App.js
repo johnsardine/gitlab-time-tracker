@@ -76,7 +76,6 @@ class App extends React.Component {
 
   async updateIssue(issue) {
     const request = await apiInstance.get(issue._links.self);
-    // this.fetchIssues();
     this.setState((state) => {
       const issues = state.issues.map((issue) => {
         if (request.data.id === issue.id) {

@@ -74,7 +74,7 @@ export default class extends React.Component {
       <div className={IssueEntry}>
         {total_time_spent}
         |
-        {this.state.time}
+        {time}
         <a href={web_url}>{title}</a>
         {
           this.state.timer

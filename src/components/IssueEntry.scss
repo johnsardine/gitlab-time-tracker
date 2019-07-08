@@ -1,0 +1,18 @@
+.IssueEntry {
+  display: flex;
+
+  &__title {
+    white-space: pre;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+  }
+  &__time {
+    flex-shrink: 0;
+  }
+  &__actions {
+    flex-shrink: 0;
+    display: inline-flex;
+  }
+}

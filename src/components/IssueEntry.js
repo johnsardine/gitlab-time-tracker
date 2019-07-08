@@ -1,8 +1,15 @@
 import React from 'react';
 import apiInstance from '../apiInstance';
-import {
-  IssueEntry,
-} from './IssueEntry.module.scss';
+import './IssueEntry.scss';
+
+function getIssueApiUrlFromIssue(issue) {
+  const {
+    _links: {
+      self: issueApiUrl,
+    },
+  } = this.props.issue;
+  return issueApiUrl;
+}
 
 export default class extends React.Component {
   constructor(props) {
@@ -39,11 +46,7 @@ export default class extends React.Component {
     if (!(time > 0)) {
       return;
     }
-    const {
-      _links: {
-        self: issueApiUrl,
-      },
-    } = this.props.issue;
+    const issueApiUrl = getIssueApiUrlFromIssue(this.props.issue);
     await apiInstance.post(`${issueApiUrl}/add_spent_time`, {
       duration: `${time}s`,
     });
@@ -71,17 +74,21 @@ export default class extends React.Component {
     } = this.state;
 
     return (
-      <div className={IssueEntry}>
-        {total_time_spent}
-        |
-        {time}
-        <a href={web_url}>{title}</a>
-        {
-          this.state.timer
-          ? <button onClick={stopTimer}>Stop timer</button>
-          : <button onClick={startTimer}>Start timer</button>
-        }
-        <button onClick={uploadTime}>Submit</button>
+      <div class="IssueEntry">
+        <a href={web_url} class="IssueEntry__title">{title}</a>
+
+        <div class="IssueEntry__time">
+          {total_time_spent} | {time}
+        </div>
+
+        <div class="IssueEntry__actions">
+          {
+            this.state.timer
+            ? <button onClick={stopTimer}>Stop timer</button>
+            : <button onClick={startTimer}>Start timer</button>
+          }
+          <button onClick={uploadTime}>Submit</button>
+        </div>
       </div>
     );
   }

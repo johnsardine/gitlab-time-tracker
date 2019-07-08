@@ -7,7 +7,7 @@ function getIssueApiUrlFromIssue(issue) {
     _links: {
       self: issueApiUrl,
     },
-  } = this.props.issue;
+  } = issue;
   return issueApiUrl;
 }
 
@@ -61,7 +61,7 @@ export default class extends React.Component {
       web_url,
       title,
       time_stats: {
-        total_time_spent,
+        human_total_time_spent,
       },
     } = this.props.issue;
     const {
@@ -71,17 +71,29 @@ export default class extends React.Component {
     } = this;
     const {
       time,
+      timer,
     } = this.state;
 
     return (
-      <div class="IssueEntry">
-        <a href={web_url} class="IssueEntry__title">{title}</a>
-
-        <div class="IssueEntry__time">
-          {total_time_spent} | {time}
+      <div className="IssueEntry">
+        <div className="IssueEntry__title">
+          <a href={web_url} target="_blank" rel="noopener noreferrer">{title}</a>
         </div>
 
-        <div class="IssueEntry__actions">
+        <div className="IssueEntry__time">
+          {
+            human_total_time_spent
+            ? <span>Spent {human_total_time_spent}</span>
+            : ''
+          }
+          {
+            time || timer
+            ? <span>Counting {time}</span>
+            : ''
+          }
+        </div>
+
+        <div className="IssueEntry__actions">
           {
             this.state.timer
             ? <button onClick={stopTimer}>Stop timer</button>

@@ -1,5 +1,10 @@
 .IssueEntry {
   display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.2rem;
+  border: 1px solid;
+  font-size: 0.8rem;
 
   &__title {
     white-space: pre;

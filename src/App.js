@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import './App.scss';
 import apiInstance from './apiInstance';
 import IssueEntry from './components/IssueEntry';
 
@@ -102,8 +103,12 @@ class App extends React.Component {
     } = this.state;
     return (
       <div>
-        <a href={requestAuthCode}>Request Auth</a>
-        <div>
+        {
+          !apiInstance
+          ? <a href={requestAuthCode}>Request Auth</a>
+          : 'Logged in as'
+        }
+        <div className="IssuesList">
           {issues.map((issue) =>
             <IssueEntry
               key={issue.id}

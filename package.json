@@ -6,7 +6,7 @@
     "react-scripts": "3.0.1"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "http-proxy-middleware": "^0.19.1",
     "netlify-lambda": "^1.4.13",
     "node-sass": "^4.12.0",
